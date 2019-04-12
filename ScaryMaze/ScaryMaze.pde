@@ -9,7 +9,7 @@ SoundFile loseSound;
 //Variable for menu/buttons
 int menuX = 30;
 int menuY = 20;
-int rectW = 100;
+int rectW = 105;
 int rectH = 50;
 
 // Counter variables
@@ -52,13 +52,16 @@ boolean printHard=false;
 boolean winPlay = false;
 boolean losePlay = false;
 
+// Paddle 
+boolean left, right;
+Paddle easyPaddle, hardPaddle;
 
 //Setup Method - loads/defaults
 void setup() {
-  
+
   size(800, 600);
   noStroke();
-  
+
   // Load all Images
   flyer = loadImage("flyering.jpg");
   flyer.resize(width, height);
@@ -74,15 +77,18 @@ void setup() {
   textAlign(CENTER);
   // Set timer
   savedTime = millis();
-  
+
   // Sounds
   gameSound = new SoundFile(this, "Miisong.mp3");
   winSound = new SoundFile(this, "kids.mp3");
   loseSound = new SoundFile(this, "lose.mp3");
-  
+
   // Play song
   gameSound.play();
-  
+
+  // Paddle init
+  easyPaddle = new Paddle(width/2, 150, 10);
+  hardPaddle = new Paddle(width/2, 75, 15);
 }
 
 //Draw Method - defaults/runs methods
@@ -92,7 +98,7 @@ void draw() {
     lost();
     return;
   }
-  
+
   // if user wins
   if (win) {
     win();
@@ -124,30 +130,17 @@ void menu() {
 
   noStroke();
 
-  //Start button
-  //if first game - select level first
-  fill(#1EED00);
-  //Change color of box while hovering
-  if (mouseX >= menuX && mouseX <= menuX + 100 && mouseY >= menuY && mouseY <= menuY+50) {
-    fill(#1EED00, 50);
-  }
-  rect(menuX, menuY, rectW, rectH, 5);
-  //Text - Start
-  fill(0);
-  textFont(menuFont, 40);
-  text("Start", menuX+50, menuY+40);
-
   //Quit button
   fill(255, 0, 0);
   //Change color of box while hovering
-  if (mouseX >= (menuX+150) && mouseX <= (menuX+150) + 100 && mouseY >= menuY && mouseY <= menuY+50) {
+  if (mouseX >= menuX && mouseX <= menuX + rectW && mouseY >= menuY && mouseY <= menuY + rectH) {
     fill(255, 0, 0, 50);
   }
-  rect(menuX + 150, menuY, rectW, rectH, 5);
+  rect(menuX, menuY, rectW, rectH, 5);
   //Text - Quit
   fill(0);
   textFont(menuFont, 40);
-  text("Quit", menuX+200, menuY+40);
+  text("Quit", menuX+50, menuY+40);
 }
 
 //Welcome Menu Method - Choosing levels, Prompt
@@ -215,12 +208,12 @@ void level() {
     //Tabling Area - set up maze
     color tableColor = color(0);
     fill(tableColor);
-    
+
     //Borders
     rect(0, 0, 10, 600);
     rect(0, 0, 800, 8);
     rect(795, 0, 10, 600);
-    
+
     // Maze
     rect(0, 450, 800, 200);
     rect(0, 500, 800, rectHeight);
@@ -243,17 +236,17 @@ void level() {
       lose = true;
       losePlay = true;
     }
-    
+
     // User has made it to Little Hall - Update scores and state of the game
     if (mouseX<=50 && mouseY<=50) {
       win = true;
       winPlay = true;
-      if(score>easyHigh){
+      if (score>easyHigh) {
         easyHigh = score;
         highScore = easyHigh;
       }
     }
-    
+
     // Countdown - Works as a time that resets. Decreases the Score
     int passedTime = millis()-savedTime;
     if (passedTime>totalTime) {
@@ -263,6 +256,9 @@ void level() {
         lose = true;
       }
     }
+
+    easyPaddle.update();
+    easyPaddle.show();
   }
 
 
@@ -276,12 +272,12 @@ void level() {
     fill(tableColor);
 
     // Draw unrestricted area - if else statements for flashing barriers in maze
-    
+
     //Borders
     rect(0, 0, 10, 600);
     rect(0, 0, 800, 8);
     rect(795, 0, 10, 600);
-    
+
     // Flashing barriers
     rect(0, 470, 800, 200);
     if (check%2==0) {
@@ -304,7 +300,7 @@ void level() {
     } else {
       rect(0, 50, 800, 50);
     }
-    
+
     // Barriers in the middle of the path
     if (check%2==0) {
       rect(width/2-200, 300, 50, 50);
@@ -348,17 +344,17 @@ void level() {
       lose = true;
       losePlay = true;
     }
-    
+
     // User has made it to Little hall - Update scores and state of the game
     if (mouseX<=50 && mouseY<=50) {
       win = true;
       winPlay = true;
-      if(score>hardHigh){
+      if (score>hardHigh) {
         hardHigh = score;
         highScore = hardHigh;
       }
     }
-    
+
     // Countdown - Works as a time that resets. Decreases the Score
     int passedTime = millis()-savedTime;
     if (passedTime>totalTime) {
@@ -367,6 +363,9 @@ void level() {
 
       check--;
     }
+
+    hardPaddle.update();
+    hardPaddle.show();
   }
 
   //Resets welcome screen
@@ -393,30 +392,16 @@ void score() {
 void mouseClicked() {
   // Lost & reset game
   if (mouseX >= width/2 - 125 && mouseX <= width/2 +125 && mouseY >= height/2-50 && mouseY <= height/2+50 && lose) {
-    lockWelcome = false;
-    play = false;
-    lockEasy = false;
-    lockHard = false;
-    lose = false;
-    win = false;
-    //Reset
-    score = 20000;
+    reset();
   }
 
   // Win & reset game
   if (mouseX >= width/2 - 125 && mouseX <= width/2 +125 && mouseY >= height/2-50 && mouseY <= height/2+50 && win) {
-    lockWelcome = false;
-    play = false;
-    lockEasy = false;
-    lockHard = false;
-    lose = false;
-    win = false;
-    //Reset
-    score = 20000;
+    reset();
   }
   //Start/Quit Button sets screen to Welcome Screen
-  if (mouseX >= menuX && mouseX <= menuX + 100 && mouseY >= menuY && mouseY <= menuY+50 || mouseX >= (menuX+150) && mouseX <= (menuX+150) + 100 && mouseY >= menuY && mouseY <= menuY+50 && play==false) {
-  
+  if (mouseX >= menuX && mouseX <= menuX + rectW && mouseY >= menuY && mouseY <= menuY + rectH && play==false) {
+
     exit();
   }
 
@@ -434,6 +419,24 @@ void mouseClicked() {
   }
 }
 
+void keyPressed() {
+  if (key == 'a' || key == 'A') {
+    left = true;
+  }
+  if (key == 'd' || key == 'D') {
+    right = true;
+  }
+}
+
+void keyReleased() {
+  if (key == 'a' || key == 'A') {
+    left = false;
+  }
+  if (key == 'd' || key == 'D') {
+    right = false;
+  }
+}
+
 
 // Loops in this state once loser has lost. Create lose object 
 void lost() {
@@ -444,6 +447,19 @@ void lost() {
 void win() {
   win myWinner = new win();
   myWinner.winner();
+}
+// Reset game
+void reset() {
+  lockWelcome = false;
+  play = false;
+  lockEasy = false;
+  lockHard = false;
+  lose = false;
+  win = false;
+  //Reset
+  score = 20000;
+  easyPaddle.reset();
+  hardPaddle.reset();
 }
 
 // Each of the following get the (r,g,b) components of wherever the mouse is pointing to 
