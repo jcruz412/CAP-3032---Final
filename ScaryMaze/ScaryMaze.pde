@@ -87,8 +87,8 @@ void setup() {
   gameSound.play();
 
   // Paddle init
-  easyPaddle = new Paddle(width/2, 150, 10);
-  hardPaddle = new Paddle(width/2, 75, 15);
+  easyPaddle = new Paddle(150, 10);
+  hardPaddle = new Paddle(75, 15);
 }
 
 //Draw Method - defaults/runs methods
