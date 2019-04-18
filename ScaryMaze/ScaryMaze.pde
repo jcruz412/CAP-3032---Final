@@ -56,6 +56,9 @@ boolean losePlay = false;
 boolean left, right;
 Paddle easyPaddle, hardPaddle;
 
+// Ball
+Ball b;
+
 //Setup Method - loads/defaults
 void setup() {
 
@@ -89,6 +92,9 @@ void setup() {
   // Paddle init
   easyPaddle = new Paddle(150, 10);
   hardPaddle = new Paddle(75, 15);
+  
+  // Ball init
+  b = new Ball(width*3/4, height/2, 30, 6, 135);
 }
 
 //Draw Method - defaults/runs methods
@@ -238,7 +244,7 @@ void level() {
     }
 
     // User has made it to Little Hall - Update scores and state of the game
-    if (mouseX<=50 && mouseY<=50) {
+    if (mouseX<=100 && mouseY<=50) {
       win = true;
       winPlay = true;
       if (score>easyHigh) {
@@ -254,11 +260,14 @@ void level() {
       score-=500;
       if (score==0) {
         lose = true;
+        losePlay = true;
       }
     }
 
-    easyPaddle.update();
+    easyPaddle.update(b);
     easyPaddle.show();
+    b.update();
+    b.show();
   }
 
 
@@ -346,7 +355,7 @@ void level() {
     }
 
     // User has made it to Little hall - Update scores and state of the game
-    if (mouseX<=50 && mouseY<=50) {
+    if (mouseX<=100 && mouseY<=50) {
       win = true;
       winPlay = true;
       if (score>hardHigh) {
@@ -364,8 +373,10 @@ void level() {
       check--;
     }
 
-    hardPaddle.update();
+    hardPaddle.update(b);
     hardPaddle.show();
+    b.update();
+    b.show();
   }
 
   //Resets welcome screen
@@ -460,6 +471,7 @@ void reset() {
   score = 20000;
   easyPaddle.reset();
   hardPaddle.reset();
+  b.reset();
 }
 
 // Each of the following get the (r,g,b) components of wherever the mouse is pointing to 
