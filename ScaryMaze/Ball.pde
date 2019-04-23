@@ -50,7 +50,8 @@ class Ball {
 
   // Changes its angle when the ball collides with wall
   void wallCollide() {
-    timer = 10;
+    // Timer used to prevent multiple collisions with the wall
+    timer = 2;
     // Side Walls
     if (x + radius >=  width || x - radius <= 0) {
       float angleOffY;
