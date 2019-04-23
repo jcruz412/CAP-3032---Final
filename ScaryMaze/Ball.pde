@@ -19,6 +19,7 @@ class Ball {
     this.timer = 0;
   }
 
+  // Updates the ball's position
   void update() {
     // Position update 
     x += speed*cos(radians(angle));
@@ -47,6 +48,7 @@ class Ball {
     }
   }
 
+  // Changes its angle when the ball collides with wall
   void wallCollide() {
     timer = 10;
     // Side Walls
@@ -69,10 +71,12 @@ class Ball {
     }
   }
 
+  // Display the ball
   void show() {
     ellipse(this.x, this.y, radius*2, radius*2);
   }
 
+  // Reset the ball to initial position
   void reset() {
     this.x = initX;
     this.y = initY;

@@ -430,6 +430,7 @@ void mouseClicked() {
   }
 }
 
+// Called when a key is pressed
 void keyPressed() {
   if (key == 'a' || key == 'A') {
     left = true;
@@ -439,6 +440,7 @@ void keyPressed() {
   }
 }
 
+// Called when a key is released
 void keyReleased() {
   if (key == 'a' || key == 'A') {
     left = false;

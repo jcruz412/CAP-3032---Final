@@ -11,6 +11,8 @@ class Paddle {
     this.speed = speed;
   }
   
+  // Updates position of paddle when player presses "A" or "D"
+  // Also updates ball position on collision
   void update(Ball b) {
     if (left && x - l/2 >= 0) {
       x -= speed;
@@ -24,14 +26,17 @@ class Paddle {
     }
   }
   
+  // Display paddle
   void show() {
     rect(x - l/2, y, l, h);
   }
   
+  // Resets paddle position to its starting position
   void reset() {
     this.x = width/2;
   }
   
+  // Changes the ball's angle depending on where the ball hit the paddle
   void collide(Ball b) {
     // Calculate what part of the paddle the ball hits
     float collidePosition = map(b.x - (x - l/2), 0, l, 0, 1);
