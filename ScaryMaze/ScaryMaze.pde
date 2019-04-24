@@ -4,7 +4,7 @@ import processing.sound.*;
 SoundFile winSound;
 SoundFile gameSound;
 SoundFile loseSound;
-
+SoundFile bump;
 
 //Variable for menu/buttons
 int menuX = 30;
@@ -85,9 +85,11 @@ void setup() {
   gameSound = new SoundFile(this, "Miisong.mp3");
   winSound = new SoundFile(this, "kids.mp3");
   loseSound = new SoundFile(this, "lose.mp3");
+  loseSound.amp(0.5);
+  bump = new SoundFile(this, "smb_bump.wav");
 
   // Play song
-  gameSound.play();
+  gameSound.loop();
 
   // Paddle init
   easyPaddle = new Paddle(150, 10);
@@ -420,6 +422,7 @@ void mouseClicked() {
   if (mouseX >= width/2 - 200 && mouseX <= width/2 - rectW && mouseY >= 2*(height/3) && mouseY <= 2*(height/3)+rectH) {
     play = true;
     lockEasy = true;
+    gameSound.amp(0.3);
   }
 
 
@@ -427,6 +430,7 @@ void mouseClicked() {
   if (mouseX >= width/2 + 100 && mouseX <= width/2 + 200 && mouseY >= 2*(height/3) && mouseY <= 2*(height/3)+rectH) {
     play = true;
     lockHard = true;
+    gameSound.amp(0.3);
   }
 }
 
@@ -474,6 +478,7 @@ void reset() {
   easyPaddle.reset();
   hardPaddle.reset();
   b.reset();
+  gameSound.amp(1);
 }
 
 // Each of the following get the (r,g,b) components of wherever the mouse is pointing to 

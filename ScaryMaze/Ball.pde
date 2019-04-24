@@ -50,6 +50,7 @@ class Ball {
 
   // Changes its angle when the ball collides with wall
   void wallCollide() {
+    bump.play();
     // Timer used to prevent multiple collisions with the wall
     timer = 2;
     // Side Walls

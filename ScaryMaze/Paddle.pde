@@ -38,6 +38,7 @@ class Paddle {
   
   // Changes the ball's angle depending on where the ball hit the paddle
   void collide(Ball b) {
+    bump.play();
     // Calculate what part of the paddle the ball hits
     float collidePosition = map(b.x - (x - l/2), 0, l, 0, 1);
     b.angle = map(collidePosition, 0, 1, 225, 315);
