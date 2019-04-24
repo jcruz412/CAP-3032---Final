@@ -5,6 +5,7 @@ SoundFile winSound;
 SoundFile gameSound;
 SoundFile loseSound;
 SoundFile bump;
+SoundFile lightSwitch;
 
 //Variable for menu/buttons
 int menuX = 30;
@@ -87,6 +88,7 @@ void setup() {
   loseSound = new SoundFile(this, "lose.mp3");
   loseSound.amp(0.5);
   bump = new SoundFile(this, "smb_bump.wav");
+  lightSwitch = new SoundFile(this, "lightSwitch.mp3");
 
   // Play song
   gameSound.loop();
@@ -288,6 +290,8 @@ void level() {
     rect(0, 0, 10, 600);
     rect(0, 0, 800, 8);
     rect(795, 0, 10, 600);
+    
+    rect(0, 150, 800, 50);
 
     // Flashing barriers
     rect(0, 470, 800, 200);
@@ -300,11 +304,6 @@ void level() {
       rect(0, 250, 750, 50);
     } else {
       rect(0, 250, 800, 50);
-    }
-    if (check%2==0) {
-      rect(0, 150, 750, 50);
-    } else {
-      rect(50, 150, 750, 50);
     }
     if (check%2==0) {
       rect(0, 50, 750, 50);
@@ -371,7 +370,7 @@ void level() {
     if (passedTime>totalTime) {
       savedTime = millis();
       score-=500;
-
+      lightSwitch.play();
       check--;
     }
 
