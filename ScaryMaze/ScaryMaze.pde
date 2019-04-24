@@ -168,7 +168,7 @@ void welcome() {
   text("Instructions: ", width/2, height/2+180);
 
   textFont(menuFont, 16);
-  text("Use your mouse to get to the class. You do NOT want to get caught in the black tabling areas", width/2-10, height/2+200);
+  text("Use your mouse to get to the class. You do NOT want to get caught in the black tabling areas\n Use the 'A' and 'D' keys to keep the ball in the air, but try NOT to touch the ball!", width/2-10, height/2+200);
 
   pushMatrix();
   //Font Setup
@@ -291,7 +291,7 @@ void level() {
     rect(0, 0, 800, 8);
     rect(795, 0, 10, 600);
     
-    rect(0, 150, 800, 50);
+    rect(50, 150, 800, 50);
 
     // Flashing barriers
     rect(0, 470, 800, 200);
